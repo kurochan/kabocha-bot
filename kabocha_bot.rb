@@ -19,11 +19,4 @@ class KabochaBot < TwitterBot
   def rt_task
     kabocha_rt
   end
-
-  def on_status(status)
-  end
-
-  def on_filter_status(status)
-    # retweet status
-  end
 end
