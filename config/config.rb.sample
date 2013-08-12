@@ -1,0 +1,13 @@
+# -*- encoding: utf-8 -*-
+DEBUG = true
+BOT_NAME = 'kabocha_bot'
+HEROKU_REPO_NAME = 'heroku repository name'
+MY_NAME = 'かぼちゃbot'
+CONSUMER_KEY = 'consumer key here'
+CONSUMER_SECRET = 'cousumer secret here'
+ACCESS_TOKEN = 'access token here'
+ACCESS_TOKEN_SECRET = 'access token secret here'
+REDIS_URI_PRODUCTION = 'redis://redis_uri:1234'
+REDIS_URI_DEBUG = 'redis://localhost:6379'
+HEROKU_API_KEY = 'heroku api key here'
+REDIS_URI = DEBUG ? REDIS_URI_DEBUG : REDIS_URI_PRODUCTION
