@@ -11,7 +11,6 @@ class TwitterBot
   attr_reader :redis
   def initialize
     uri = URI.parse(REDIS_URI)
-    # @redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
 
     @client = Twitter::Client.new(
       :consumer_key => CONSUMER_KEY,
@@ -23,8 +22,6 @@ class TwitterBot
     @timeline_since = 1
     @reply = []
     @reply_since = 1
-    # init_stream
-    # user_stream
   end
 
   def require_plugin(name)
@@ -52,60 +49,6 @@ class TwitterBot
   def get_reply
     @reply = @client.mentions_timeline :count => 200, :since_id => @reply_since
     dump_statuses(@reply)
-  end
-
-  private
-  def init_stream
-    UserStream.configure do |config|
-      config.consumer_key = CONSUMER_KEY
-      config.consumer_secret = CONSUMER_SECRET
-      config.oauth_token = ACCESS_TOKEN
-      config.oauth_token_secret = ACCESS_TOKEN_SECRET
-    end
-  end
-
-  private
-  def user_stream
-    t = Thread.new do
-      loop do
-        @user_stream = UserStream.client
-        begin
-          # @user_stream.user do |status|
-          #   before_on_status status
-          # end
-          @user_stream.filter(:track => 'かぼちゃ') do |status|
-            puts status.text
-            on_filter_status status
-          end
-        rescue  Timeout::Error
-          puts '[UserStream] Timeout ERROR retry...'
-        end
-      end
-      sleep 10
-    end
-  end
-
-  private
-  def before_on_status(status)
-  #  @redis.lpush('twitter:status_id', status.id) if status.text
-  #  @redis.hmset("twitter:status:#{status.id}",
-  #               'user_name', status.user.name,
-  #               'user_id', status.user.id,
-  #               'screen_name', status.user.screen_name,
-  #               'text', status.text,
-  #               'in_reply_to_status_id', status.in_reply_to_status_id,
-  #               'created_at', status.created_at
-  #              ) if status.text
-  #  @redis.lpush('twitter:delete_id', status[:delete].status.id) if status[:delete]
-    on_status status
-  end
-
-  def on_status(status)
-    # on status hook
-  end
-
-  def on_filter_status(status)
-    # on filter status hook
   end
 
   def dump_statuses(statuses)

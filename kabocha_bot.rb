@@ -5,7 +5,6 @@ class KabochaBot < TwitterBot
     require_plugin 'kabocha_rt'
     require_plugin 'random_tweet'
     init_task
-    # job :intval => 3.seconds, :func => :hello
     job :intval => 320.minutes, :func => :normal_task
     job :intval => 120.minutes, :func => :rt_task
   end
